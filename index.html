@@ -64,11 +64,13 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/skeletonspeedrunnew.loader.js";
+      var version = new Date().getTime(); // Generates a unique timestamp
+
+      var loaderUrl = buildUrl + "/skeletonspeedrunnew.loader.js?v=" + version;
       var config = {
-        dataUrl: buildUrl + "/skeletonspeedrunnew.data",
-        frameworkUrl: buildUrl + "/skeletonspeedrunnew.framework.js",
-        codeUrl: buildUrl + "/skeletonspeedrunnew.wasm",
+        dataUrl: buildUrl + "/skeletonspeedrunnew.data?v=" + version,
+        frameworkUrl: buildUrl + "/skeletonspeedrunnew.framework.js?v=" + version,
+        codeUrl: buildUrl + "/skeletonspeedrunnew.wasm?v=" + version,
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "Skeleton SpeedRun",
