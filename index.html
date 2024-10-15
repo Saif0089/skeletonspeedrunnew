@@ -20,30 +20,7 @@
       <div id="unity-warning"> </div>
     </div>
     <script>
-      // Clear browser cache before loading the Unity WebGL game
-      function clearCache() {
-        if ('caches' in window) {
-          caches.keys().then(function(names) {
-            for (let name of names) caches.delete(name);
-          });
-          console.log("Cache cleared");
-        }
-      }
-
       window.addEventListener("load", function () {
-        // Clear the cache when the window loads
-        clearCache();
-
- // Unregister all service workers
-        if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.getRegistrations().then(function(registrations) {
-            for(let registration of registrations) {
-              registration.unregister();
-              console.log('Service worker unregistered');
-            }
-          });
-        }
-
         if ("serviceWorker" in navigator) {
           navigator.serviceWorker.register("ServiceWorker.js");
         }
@@ -55,6 +32,12 @@
       var progressBarFull = document.querySelector("#unity-progress-bar-full");
       var warningBanner = document.querySelector("#unity-warning");
 
+      // Shows a temporary message banner/ribbon for a few seconds, or
+      // a permanent error message on top of the canvas if type=='error'.
+      // If type=='warning', a yellow highlight color is used.
+      // Modify or remove this function to customize the visually presented
+      // way that non-critical warnings and error messages are presented to the
+      // user.
       function unityShowBanner(msg, type) {
         function updateBannerVisibility() {
           warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
@@ -74,13 +57,11 @@
       }
 
       var buildUrl = "Build";
-      var version = new Date().getTime(); // Generates a unique timestamp
-
-      var loaderUrl = buildUrl + "/skeletonspeedrunnew.loader.js?v=" + version;
+      var loaderUrl = buildUrl + "/skeletonspeedrunnew.loader.js";
       var config = {
-        dataUrl: buildUrl + "/skeletonspeedrunnew.data?v=" + version,
-        frameworkUrl: buildUrl + "/skeletonspeedrunnew.framework.js?v=" + version,
-        codeUrl: buildUrl + "/skeletonspeedrunnew.wasm?v=" + version,
+        dataUrl: buildUrl + "/skeletonspeedrunnew.data",
+        frameworkUrl: buildUrl + "/skeletonspeedrunnew.framework.js",
+        codeUrl: buildUrl + "/skeletonspeedrunnew.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "Skeleton SpeedRun",
@@ -88,7 +69,15 @@
         showBanner: unityShowBanner,
       };
 
+      // By default Unity keeps WebGL canvas render target size matched with
+      // the DOM size of the canvas element (scaled by window.devicePixelRatio)
+      // Set this to false if you want to decouple this synchronization from
+      // happening inside the engine, and you would instead like to size up
+      // the canvas DOM size and WebGL render target sizes yourself.
+      // config.matchWebGLToCanvasSize = false;
+
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        // Mobile device style: fill the whole browser client area with the game canvas:
         var meta = document.createElement('meta');
         meta.name = 'viewport';
         meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
