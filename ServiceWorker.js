@@ -1,4 +1,4 @@
-const cacheName = "DefaultCompany-Skeleton SpeedRun-0.1";
+const cacheName = "DefaultCompany-Skeleton SpeedRun-0.2";
 const contentToCache = [
     "Build/skeletonspeedrunnew.loader.js",
     "Build/skeletonspeedrunnew.framework.js",
