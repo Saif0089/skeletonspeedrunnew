@@ -1,4 +1,4 @@
-const cacheName = "skeletonspeedrunnew-2.02";
+const cacheName = "skeletonspeedrunnew-3.03";
 const contentToCache = [
   "***.loader",
   "***.framework.js.br",
